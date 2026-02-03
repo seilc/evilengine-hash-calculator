@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EvilEngine Hash Calculator</title>
+    <meta name="color-scheme" content="light dark">
+</head>
+
+<body>
+    <h1>EvilEngine Hash Calculator</h1>
+
+    <p>
+        More info:
+        <a href="https://heavyironmodding.org/wiki/EvilEngine/Assets">
+            https://heavyironmodding.org/wiki/EvilEngine/Assets
+        </a>
+    </p>
+
+    <p>
+        Input string:<br>
+        <textarea id="input" rows="6" cols="60"></textarea>
+    </p>
+
+    <p>
+        Output hash:<br>
+        <input id="output" type="text" readonly value="0x00000000">
+    </p>
+
+    <script>
+        function xStrHash(str) {
+            let i = 0 >>> 0;
+
+            for (let idx = 0; idx < str.length; idx++) {
+                let c = str.charCodeAt(idx) & 0xFF;
+                c = (c - (c & (c >> 1) & 0x20)) & 0xFF;
+                i = ((i * 131) + c) >>> 0;
+            }
+
+            return i;
+        }
+
+        const input = document.getElementById("input");
+        const output = document.getElementById("output");
+
+        input.addEventListener("input", () => {
+            const hash = xStrHash(input.value);
+            output.value = "0x" + hash.toString(16).padStart(8, "0");
+        });
+    </script>
+</body>
+
+</html>
